@@ -3,11 +3,11 @@
 ## Current phase & project
 - **Phase 1** — Network Configuration Analyzer (`01-network-config-analyzer/`)
 - **Approach changed (2026-10-25, at Jaylon's request):** teach the full building blocks first, one block at a time, each ending with an exercise he writes + a cold check; then assemble the analyzer. Blocks: 1 Values/types/variables → 2 Strings → 3 Conditions/logic → 4 Functions → 5 Exceptions → 6 Lists & for → 7 while loops → 8 Dicts → 9 Modules & objects → 10 `ipaddress` → 11 Program structure (`main`, `__name__`) → 12 pytest.
-- **Current block:** Block 2 — Strings. (Block 1 passed 2026-10-25: `exercises/server_inventory.py`, `exercises/block1_check.py`.)
+- **Current block:** Block 2 — Strings. **Mid-assignment 2.1** (`exercises/block2_strings.py`): first version produced correct output; refactor in progress and currently crashes (`TypeError` on `int(prefix_text)` — he indexes the string (`address[1]`) before splitting). Next steps given one at a time: (1) `parts = address.split("/")`, `ip_text = parts[0]`, `prefix_text = parts[1]`, `octet = ip_text.split(".")`, `last_octet = octet[-1]` → run; (2) fix prints to use `ip_text` / `len(ip_text)` / `prefix_text.isdigit()` → run; (3) add `Last octet:` line → run; then test case 2 (`"  192.168.50.7/16 "`). Lesson learned: ask for ONE change at a time — he got frustrated when 4 changes were requested at once. (Block 1 passed 2026-10-25: `exercises/server_inventory.py`, `exercises/block1_check.py`.)
 - Feature 1 (`parse_ip`) lesson covered (ipaddress basics, uncaught exception stops program, traceback bottom-up, `parse_port` try/except trace); `parse_ip` not yet written. `01-network-config-analyzer/analyzer.py` exists (empty, nested-folder mistake fixed).
 
 ## Last session
-- 2026-10-25, machine: **Mac**
+- 2026-10-26, machine: **Mac** → switching to **PC** (first time on PC)
 
 ## How Jaylon wants to learn (mandatory, set 2026-10-25)
 - Code first, not chat first: every concept → short explanation + example → an assignment he writes and runs in VS Code.
