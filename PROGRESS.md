@@ -3,11 +3,11 @@
 ## Current phase & project
 - **Phase 1** — Network Configuration Analyzer (`01-network-config-analyzer/`)
 - **Approach changed (2026-10-25, at Jaylon's request):** teach the full building blocks first, one block at a time, each ending with an exercise he writes + a cold check; then assemble the analyzer. Blocks: 1 Values/types/variables → 2 Strings → 3 Conditions/logic → 4 Functions → 5 Exceptions → 6 Lists & for → 7 while loops → 8 Dicts → 9 Modules & objects → 10 `ipaddress` → 11 Program structure (`main`, `__name__`) → 12 pytest.
-- **Current block:** Block 2 — Strings. **Mid-assignment 2.1** (`exercises/block2_strings.py`): first version produced correct output; refactor in progress and currently crashes (`TypeError` on `int(prefix_text)` — he indexes the string (`address[1]`) before splitting). Next steps given one at a time: (1) `parts = address.split("/")`, `ip_text = parts[0]`, `prefix_text = parts[1]`, `octet = ip_text.split(".")`, `last_octet = octet[-1]` → run; (2) fix prints to use `ip_text` / `len(ip_text)` / `prefix_text.isdigit()` → run; (3) add `Last octet:` line → run; then test case 2 (`"  192.168.50.7/16 "`). Lesson learned: ask for ONE change at a time — he got frustrated when 4 changes were requested at once. (Block 1 passed 2026-10-25: `exercises/server_inventory.py`, `exercises/block1_check.py`.)
+- **Current block:** Block 2 — Strings. Assignment 2.1 (`exercises/block2_strings.py`) **passed** 2026-10-27 after a step-by-step refactor (hit `IndexError`/`TypeError` from indexing a string before splitting; fixed `prefix_text[1].isdigit()` bug exposed by a `/8` input). Leftover: delete extra blank lines in that file. **Next: Block 2 cold check** `exercises/block2_check.py` (parse `"FAILED user=Admin src=203.0.113.45 port=2222"`) — created, not started. Lesson learned: ask for ONE change at a time. (Block 1 passed 2026-10-25: `exercises/server_inventory.py`, `exercises/block1_check.py`.)
 - Feature 1 (`parse_ip`) lesson covered (ipaddress basics, uncaught exception stops program, traceback bottom-up, `parse_port` try/except trace); `parse_ip` not yet written. `01-network-config-analyzer/analyzer.py` exists (empty, nested-folder mistake fixed).
 
 ## Last session
-- 2026-10-26, machine: **Mac** → switching to **PC** (first time on PC)
+- 2026-10-27, machine: **Mac** (PC set up in between, no work done there)
 
 ## How Jaylon wants to learn (mandatory, set 2026-10-25)
 - Code first, not chat first: every concept → short explanation + example → an assignment he writes and runs in VS Code.
@@ -18,7 +18,7 @@
 ## Environment
 - Mac: Python 3.13, Git, VS Code `code` command, Homebrew, `gh` (logged in), repo cloned at `~/python-infra-engineering`, `.venv` with pytest. Commit email = GitHub noreply.
 - To check on Mac: VS Code Python extension installed; interpreter set to `.venv`.
-- PC: **not set up yet** — see `.claude/skills/python-infra-mentor/references/cross-platform.md` → "One-time setup on each machine".
+- PC: set up 2026-10-26 (Python, Git, repo cloned, `.venv`, VS Code). No coding done on it yet — first PC session should confirm `git pull` + venv activation work.
 
 ## Independent
 - (none yet)
@@ -38,6 +38,8 @@
 - Reads loops/dicts well; good security instincts (caught port 0 as invalid himself; chose strict rejection of `" 443"` deliberately).
 
 ## Bugs learned to diagnose
+- `IndexError` / `TypeError` from indexing a string (`address[1]` → one char) before `.split()`; `.split()` always returns a list
+- Code that passes one test but breaks on other valid input (`/8` prefix) — test multiple inputs
 - `NameError` from a variable typo — fixed himself using "Did you mean"
 - `TypeError` str + int; `str * int` silently repeats (`"16" * 2` → `"1616"`)
 - Unsaved file in VS Code → old code runs

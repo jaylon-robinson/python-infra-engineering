@@ -37,26 +37,20 @@ raw_hostname = "  Core-SW-01 "
 
 hostname = raw_hostname.strip().lower()
 address = raw_address.strip()
-prefix_text = address[1].split("/")
-ip_text = prefix_text[0]
+parts = address.split("/")
+ip_text = parts[0]
+prefix_text = parts[1]
 prefix = int(prefix_text)
 host_bits = 32 - prefix
 octet = ip_text.split(".")
 first_octet = octet[0]
 last_octet = octet[3]
 
-
-
 print(f"Host: {hostname}")
-print(f"IP: {prefix_text[0]}")
+print(f"IP: {ip_text}")
 print(f"Prefix: /{prefix}")
 print(f"Host bits: {host_bits}")
 print(f"First octet: {first_octet}")
-print(f"IP length: {len(prefix_text[0])}")
-print(f"Prefix is digits: {prefix_text[1].isdigit()}")
-
-
-
-
-
-
+print(f"IP length: {len(ip_text)}")
+print(f"Prefix is digits: {prefix_text.isdigit()}")
+print(f"Last octet: {last_octet}")
