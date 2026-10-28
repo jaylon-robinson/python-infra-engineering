@@ -34,4 +34,27 @@
 # Run: python exercises/block2_check.py
 
 raw_line = "  FAILED user=Admin src=203.0.113.45 port=2222  \n"
+#raw_line = "FAILED user=ROOT src=10.9.8.7 port=22"
+raw_strip = raw_line.strip()
+raw_split = raw_strip.split(" ")
+status = raw_split[0].lower()
+usersplit= raw_split[1]
+usertxt = usersplit.split("=")
+user = usertxt[1].lower()
+src_split = raw_split[2]
+srctxt = src_split.split("=")
+src = srctxt[1]
+octet_txt = src.split(".")
+last_octet = octet_txt[3]
+port_txt = raw_split[3]
+port = port_txt.split("=")
+portnum = (port)[1]
+portint = int(portnum)
 
+print(f"Status: {status}")
+print(f"User: {user}")
+print(f"Source IP: {src}")
+print(f"Source last octet: {last_octet}")
+print(f"Port: {portnum}")
+print(f"Port is digits: {portnum.isdigit()}")
+print(f"Next port: {portint + 1}")
