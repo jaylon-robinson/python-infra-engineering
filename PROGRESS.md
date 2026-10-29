@@ -3,16 +3,18 @@
 ## Current phase & project
 - **Phase 1** — Network Configuration Analyzer (`01-network-config-analyzer/`)
 - **Approach changed (2026-10-25, at Jaylon's request):** teach the full building blocks first, one block at a time, each ending with an exercise he writes + a cold check; then assemble the analyzer. Blocks: 1 Values/types/variables → 2 Strings → 3 Conditions/logic → 4 Functions → 5 Exceptions → 6 Lists & for → 7 while loops → 8 Dicts → 9 Modules & objects → 10 `ipaddress` → 11 Program structure (`main`, `__name__`) → 12 pytest.
-- **Current block:** Block 3 — Conditions/logic (not started). **Block 2 — Strings passed 2026-10-27** (on PC): 2.1 `exercises/block2_strings.py` + cold check `exercises/block2_check.py`. Cold check: TC1 output was right on first try but code split `raw_line` instead of the stripped line, so indexes `[2]`–`[5]` only worked because of leading-space empty strings; TC2 → `IndexError`. He found the crash line himself; found root cause after one guided `print(raw_split)`. Also first ran TC2 with TC1's whitespace kept (not the exact test input). Then removed dead `if ...: True` block, used `int` port (`portint + 1` → 2223), answered `portnum + 1` → `TypeError` correctly. Lesson learned: ask for ONE change at a time. (Block 1 passed 2026-10-25.)
+- **Current block:** Block 3 — Conditions. Assignment 3.1 (`exercises/block3_conditions.py`, port classifier) **passed** 2026-10-28: guard + nested range chain correct first try incl. boundaries; service chain needed 3 rounds (ran for out-of-range ports; used a dummy `else: print()` — learned `else` is optional; `< 65535` boundary miss → fixed with `< 65536`). **Next: Block 3 cold check** `exercises/block3_check.py` (failed-login severity, first assignment in the less-scaffolding style — he writes a plan first). Block 2 passed 2026-10-27, Block 1 passed 2026-10-25.
 - Feature 1 (`parse_ip`) lesson covered (ipaddress basics, uncaught exception stops program, traceback bottom-up, `parse_port` try/except trace); `parse_ip` not yet written. `01-network-config-analyzer/analyzer.py` exists (empty, nested-folder mistake fixed).
 
 ## Last session
-- 2026-10-27, machine: **PC** (first coding session on PC — pull, venv, run all worked)
+- 2026-10-28, machine: **Mac** (PC used 2026-10-27 for Block 2 cold check)
 
 ## How Jaylon wants to learn (mandatory, set 2026-10-25)
 - Code first, not chat first: every concept → short explanation + example → an assignment he writes and runs in VS Code.
 - Each assignment lists: Objective, File, Requirements, Relevant concepts, Expected behavior, Test cases, Completion criteria. Only use concepts already taught.
-- Mentor creates each new exercise file (requirements as comments, no solution code).
+- Mentor creates each new exercise file (short header, no solution code).
+- **Less scaffolding (agreed 2026-10-28, starting Block 3 cold check):** give only goal + expected output + test cases — no step breakdowns, no variable names, no "use X here". He writes a 3–5 line plain-English plan as comments first; mentor reviews the plan before he codes. Hints only when asked or after a real attempt, one level at a time.
+- In chat: end every message with ONLY the current step's requirements at the very bottom (no scrolling up), in plain English.
 - Review his real code/output/errors, then a modification task to prove understanding. Graduated hints; full solution only on request + follow-up task.
 
 ## Environment
@@ -24,6 +26,7 @@
 - (none yet)
 
 ## Practicing
+- Conditions: `if`/`elif`/`else`, nesting, `and`/`or`, comparisons, guard before `int()`; chains stop at first match → separate chain for a second decision; `else` is optional
 - Variables, reassignment (top-to-bottom execution), types (`str`/`int`/`float`/`bool`/`None`), `type()`, `int()` conversion — passed Block 1 cold check after one hint (first attempt hard-coded the answer)
 - Guard-clause validation, `str.isdigit()`, `not`
 - Strings: `.strip()`, `.lower()`, `.split()` → list, chained split (`"user=Admin".split("=")[1]`), indexing incl. `[-1]`, f-strings — passed Block 2 cold check (one guided hint for root cause)
@@ -52,6 +55,7 @@
 - Empty folders don't get committed (Git tracks files, not folders)
 
 ## Struggles / needs reps
+- Boundary values (`<` vs `<=`) and not re-running ALL tests after a change (missed 0/70000/65535 cases)
 - Python syntax details (colons, indentation, parentheses order)
 - Skipping the "run it and show output" step — keep insisting on it
 - Function def vs. call boundary (asked twice what belongs to `parse_port`); predicted a function would return `False` when it has no `return False` — teach "look at the return lines"
@@ -65,4 +69,4 @@
 - `int(input(...))` and return-vs-print in a new context
 
 ## Next lesson
-- Block 3: Conditions/logic (`if`/`elif`/`else`, comparisons, `and`/`or`/`not`, int vs str comparison) — create `exercises/block3_conditions.py` (e.g., classify a port as well-known/registered/dynamic/invalid). Build `parse_ip` after Block 5.
+- Block 3 cold check (failed-login severity), then Block 4: Functions. Build `parse_ip` after Block 5.
