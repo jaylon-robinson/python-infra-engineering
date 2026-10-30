@@ -3,11 +3,11 @@
 ## Current phase & project
 - **Phase 1** — Network Configuration Analyzer (`01-network-config-analyzer/`)
 - **Approach changed (2026-10-25, at Jaylon's request):** teach the full building blocks first, one block at a time, each ending with an exercise he writes + a cold check; then assemble the analyzer. Blocks: 1 Values/types/variables → 2 Strings → 3 Conditions/logic → 4 Functions → 5 Exceptions → 6 Lists & for → 7 while loops → 8 Dicts → 9 Modules & objects → 10 `ipaddress` → 11 Program structure (`main`, `__name__`) → 12 pytest.
-- **Current block:** Block 3 — Conditions. Assignment 3.1 (`exercises/block3_conditions.py`, port classifier) **passed** 2026-10-28: guard + nested range chain correct first try incl. boundaries; service chain needed 3 rounds (ran for out-of-range ports; used a dummy `else: print()` — learned `else` is optional; `< 65535` boundary miss → fixed with `< 65536`). **Next: Block 3 cold check** `exercises/block3_check.py` (failed-login severity, first assignment in the less-scaffolding style — he writes a plan first). Block 2 passed 2026-10-27, Block 1 passed 2026-10-25.
+- **Current block:** Block 4 — Functions (not started). **Block 3 — Conditions passed 2026-10-30**: 3.1 `exercises/block3_conditions.py` + cold check `exercises/block3_check.py` (failed-login severity). Cold check: wrote a plan first (but skipped sending it for review; plan omitted the ALERT rule — that's where all bugs were). Parsing + severity chain correct first try. ALERT line needed 2 hints: `or "admin"` (non-empty string is truthy), `<=` vs `>=`, then `and`-before-`or` precedence → fixed with parentheses. Block 2 passed 2026-10-27, Block 1 passed 2026-10-25.
 - Feature 1 (`parse_ip`) lesson covered (ipaddress basics, uncaught exception stops program, traceback bottom-up, `parse_port` try/except trace); `parse_ip` not yet written. `01-network-config-analyzer/analyzer.py` exists (empty, nested-folder mistake fixed).
 
 ## Last session
-- 2026-10-28, machine: **Mac** (PC used 2026-10-27 for Block 2 cold check)
+- 2026-10-30, machine: **Mac**
 
 ## How Jaylon wants to learn (mandatory, set 2026-10-25)
 - Code first, not chat first: every concept → short explanation + example → an assignment he writes and runs in VS Code.
@@ -26,7 +26,7 @@
 - (none yet)
 
 ## Practicing
-- Conditions: `if`/`elif`/`else`, nesting, `and`/`or`, comparisons, guard before `int()`; chains stop at first match → separate chain for a second decision; `else` is optional
+- Conditions: `if`/`elif`/`else`, nesting, `and`/`or`, comparisons, guard before `int()`; chains stop at first match → separate chain for a second decision; `else` is optional; parentheses when mixing `and`/`or` — passed Block 3 cold check with 2 hints
 - Variables, reassignment (top-to-bottom execution), types (`str`/`int`/`float`/`bool`/`None`), `type()`, `int()` conversion — passed Block 1 cold check after one hint (first attempt hard-coded the answer)
 - Guard-clause validation, `str.isdigit()`, `not`
 - Strings: `.strip()`, `.lower()`, `.split()` → list, chained split (`"user=Admin".split("=")[1]`), indexing incl. `[-1]`, f-strings — passed Block 2 cold check (one guided hint for root cause)
@@ -42,6 +42,9 @@
 - Reads loops/dicts well; good security instincts (caught port 0 as invalid himself; chose strict rejection of `" 443"` deliberately).
 
 ## Bugs learned to diagnose
+- `x == "a" or "b"` is always True (non-empty string is truthy) — each side of `or` must be a full comparison
+- `and` binds before `or` → use parentheses
+- Typo in output text (`priviliged`) — exact output matters (log searches)
 - `IndexError` / `TypeError` from indexing a string (`address[1]` → one char) before `.split()`; `.split()` always returns a list
 - Code that passes one test but breaks on other valid input (`/8` prefix; leading spaces shifting split indexes) — test multiple inputs
 - Computed a cleaned value but kept using the raw one (`raw_strip` unused) — check every variable is actually used
@@ -69,4 +72,4 @@
 - `int(input(...))` and return-vs-print in a new context
 
 ## Next lesson
-- Block 3 cold check (failed-login severity), then Block 4: Functions. Build `parse_ip` after Block 5.
+- Block 4: Functions (`def`, parameters, `return` vs `print`, calling, `None` when no return) — revisit the def-vs-call confusion and "look at the return lines". Then Block 5 (exceptions) → Feature 1 `parse_ip`. Remind him: send plan with "check plan" before coding.
