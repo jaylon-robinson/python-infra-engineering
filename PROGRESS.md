@@ -3,11 +3,11 @@
 ## Current phase & project
 - **Phase 1** — Network Configuration Analyzer (`01-network-config-analyzer/`)
 - **Approach changed (2026-10-25, at Jaylon's request):** teach the full building blocks first, one block at a time, each ending with an exercise he writes + a cold check; then assemble the analyzer. Blocks: 1 Values/types/variables → 2 Strings → 3 Conditions/logic → 4 Functions → 5 Exceptions → 6 Lists & for → 7 while loops → 8 Dicts → 9 Modules & objects → 10 `ipaddress` → 11 Program structure (`main`, `__name__`) → 12 pytest.
-- **Current block:** Block 4 — Functions (not started). **Block 3 — Conditions passed 2026-10-30**: 3.1 `exercises/block3_conditions.py` + cold check `exercises/block3_check.py` (failed-login severity). Cold check: wrote a plan first (but skipped sending it for review; plan omitted the ALERT rule — that's where all bugs were). Parsing + severity chain correct first try. ALERT line needed 2 hints: `or "admin"` (non-empty string is truthy), `<=` vs `>=`, then `and`-before-`or` precedence → fixed with parentheses. Block 2 passed 2026-10-27, Block 1 passed 2026-10-25.
+- **Current block:** Block 5 — Exceptions (not started). **Block 4 — Functions passed 2026-11-02**: 4.1 `exercises/block4_functions.py` + cold check `exercises/block4_check.py` (`severity()` + `is_privileged()`) — cold check passed with **zero hints**, all 9 spec lines + 11 hidden edge cases (`-3`, `""`, `"administrator"`, boundaries). Minor: `int(failures_text)` used the raw value instead of the stripped one (works only because `int()` ignores outer spaces); `f"invalid"` with no `{}`. Plan still vague and **not sent for review (3rd time)** — next assignment: no code review until plan is checked. Blocks 1–3 passed (10-25, 10-27, 10-30).
 - Feature 1 (`parse_ip`) lesson covered (ipaddress basics, uncaught exception stops program, traceback bottom-up, `parse_port` try/except trace); `parse_ip` not yet written. `01-network-config-analyzer/analyzer.py` exists (empty, nested-folder mistake fixed).
 
 ## Last session
-- 2026-10-30, machine: **Mac**
+- 2026-11-02, machine: **Mac**
 
 ## How Jaylon wants to learn (mandatory, set 2026-10-25)
 - Code first, not chat first: every concept → short explanation + example → an assignment he writes and runs in VS Code.
@@ -26,6 +26,7 @@
 - (none yet)
 
 ## Practicing
+- Functions: `def`, parameters, `return` (early return, returns bool/str, no print inside), calling and using return values — passed Block 4 cold check with no hints. Independent pending: adapt it in `parse_ip` (Block 5) and explain def vs call cold
 - Conditions: `if`/`elif`/`else`, nesting, `and`/`or`, comparisons, guard before `int()`; chains stop at first match → separate chain for a second decision; `else` is optional; parentheses when mixing `and`/`or` — passed Block 3 cold check with 2 hints
 - Variables, reassignment (top-to-bottom execution), types (`str`/`int`/`float`/`bool`/`None`), `type()`, `int()` conversion — passed Block 1 cold check after one hint (first attempt hard-coded the answer)
 - Guard-clause validation, `str.isdigit()`, `not`
@@ -72,4 +73,4 @@
 - `int(input(...))` and return-vs-print in a new context
 
 ## Next lesson
-- Block 4: Functions (`def`, parameters, `return` vs `print`, calling, `None` when no return) — revisit the def-vs-call confusion and "look at the return lines". Then Block 5 (exceptions) → Feature 1 `parse_ip`. Remind him: send plan with "check plan" before coding.
+- Block 5: Exceptions (`try`/`except ValueError`, `else`, reading tracebacks, why not bare `except`) → then Feature 1 `parse_ip` in `01-network-config-analyzer/analyzer.py` (first real project code). Enforce: plan reviewed before code.
