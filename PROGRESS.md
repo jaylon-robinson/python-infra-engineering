@@ -3,17 +3,17 @@
 ## Current phase & project
 - **Phase 1** — Network Configuration Analyzer (`01-network-config-analyzer/`)
 - **Approach changed (2026-10-25, at Jaylon's request):** teach the full building blocks first, one block at a time, each ending with an exercise he writes + a cold check; then assemble the analyzer. Blocks: 1 Values/types/variables → 2 Strings → 3 Conditions/logic → 4 Functions → 5 Exceptions → 6 Lists & for → 7 while loops → 8 Dicts → 9 Modules & objects → 10 `ipaddress` → 11 Program structure (`main`, `__name__`) → 12 pytest.
-- **Current block:** Block 5 — Exceptions (not started). **Block 4 — Functions passed 2026-11-02**: 4.1 `exercises/block4_functions.py` + cold check `exercises/block4_check.py` (`severity()` + `is_privileged()`) — cold check passed with **zero hints**, all 9 spec lines + 11 hidden edge cases (`-3`, `""`, `"administrator"`, boundaries). Minor: `int(failures_text)` used the raw value instead of the stripped one (works only because `int()` ignores outer spaces); `f"invalid"` with no `{}`. Plan still vague and **not sent for review (3rd time)** — next assignment: no code review until plan is checked. Blocks 1–3 passed (10-25, 10-27, 10-30).
+- **Current block:** Block 5 — Exceptions. Assignment 5.1 (`exercises/block5_exceptions.py`) **passed** 2026-11-05 after fixes: bare `except:` → `except (ValueError, IndexError)`; removed dead `/` check (explained it with guidance); `parse_prefix(24)` now crashes loudly. Asked *why* named exceptions matter when output was already right — explained (bare except hides bugs like NameError). **Next: Feature 1 `parse_ip` in `01-network-config-analyzer/analyzer.py` = Block 5 cold check + first real project code** (header created, not started). Blocks 1–4 passed (10-25, 10-27, 10-30, 11-02).
 - Feature 1 (`parse_ip`) lesson covered (ipaddress basics, uncaught exception stops program, traceback bottom-up, `parse_port` try/except trace); `parse_ip` not yet written. `01-network-config-analyzer/analyzer.py` exists (empty, nested-folder mistake fixed).
 
 ## Last session
-- 2026-11-02, machine: **Mac**
+- 2026-11-05, machine: **Mac**
 
 ## How Jaylon wants to learn (mandatory, set 2026-10-25)
 - Code first, not chat first: every concept → short explanation + example → an assignment he writes and runs in VS Code.
 - Each assignment lists: Objective, File, Requirements, Relevant concepts, Expected behavior, Test cases, Completion criteria. Only use concepts already taught.
 - Mentor creates each new exercise file (short header, no solution code).
-- **Less scaffolding (agreed 2026-10-28, starting Block 3 cold check):** give only goal + expected output + test cases — no step breakdowns, no variable names, no "use X here". He writes a 3–5 line plain-English plan as comments first; mentor reviews the plan before he codes. Hints only when asked or after a real attempt, one level at a time.
+- **Less scaffolding (agreed 2026-10-28, starting Block 3 cold check):** give only goal + expected output + test cases — no step breakdowns, no variable names, no "use X here". Planning order (revised 2026-11-05 — he finds it hard to plan before seeing pieces work): **explore in the REPL first (5 min) → write 3–5 line plan from what he saw (steps + which line can fail with which error) → code.** Mentor reviews the plan before code. Hints only when asked or after a real attempt, one level at a time.
 - In chat: end every message with ONLY the current step's requirements at the very bottom (no scrolling up), in plain English.
 - Review his real code/output/errors, then a modification task to prove understanding. Graduated hints; full solution only on request + follow-up task.
 
@@ -43,6 +43,8 @@
 - Reads loops/dicts well; good security instincts (caught port 0 as invalid himself; chose strict rejection of `" 443"` deliberately).
 
 ## Bugs learned to diagnose
+- Bare `except:` silently swallows programmer bugs (`parse_prefix(24)` → None instead of `AttributeError`)
+- Dead code after a line that already raises (the `if '/' not in` check after `.split('/')[1]`)
 - `x == "a" or "b"` is always True (non-empty string is truthy) — each side of `or` must be a full comparison
 - `and` binds before `or` → use parentheses
 - Typo in output text (`priviliged`) — exact output matters (log searches)
