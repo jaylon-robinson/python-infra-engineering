@@ -1,120 +1,88 @@
-# Roadmap — Detection Engineering Portfolio
+# Roadmap — Infrastructure-Minded Software Engineer
 
-Execution plan for the portfolio in [`README.md`](./README.md). Runs the acts in order, one shippable GitHub artifact per week.
+**Where I'm headed.** `PROGRESS.md` says where I am right now; this file says where it all leads and how the pieces connect.
+Detailed lesson plans for Phases 0–6 live in `.claude/skills/python-infra-mentor/references/curriculum.md`.
 
-**Design assumption:** ~10–12 focused hours/week around work. More time → weeks compress; less → they stretch.
+## Rules
 
-**The one rule:** every week ends with something on GitHub. If a week slips, cut scope *inside* the week — never skip the artifact. A smaller shipped thing beats a bigger unshipped one.
+1. **Two active tracks, maximum.** This repo is the main track. Network Wiz is the secondary track. Everything else is either a target environment or comes later.
+2. **A stage is done when its milestone works and I pass a cold check.** Finishing a tutorial or reading docs doesn't count.
+3. **One tracker.** `PROGRESS.md` is authoritative on both machines (Mac and PC). Pull before you start, and commit before you switch machines.
+4. **From Stage 3 on, one system grows.** I don't start a new project each stage; I keep evolving the same app.
 
----
+## Stage map
 
-## Foundation — already shipped
+| Stage | What covers it | Milestone (proof) |
+|---|---|---|
+| **1. Programming foundations** | Repo Phase 1 — Blocks 1–12 | Network Configuration Analyzer |
+| **2. Networking & systems** | Network Wiz (concepts) + Repo Phase 2 (automation) + Linux thread | Network Diagnostic Toolkit |
+| *Security bridge* | Repo Phase 3, run against my Wazuh / AD lab logs | Authentication Log Analyzer |
+| **3. Software engineering** | Repo Phase 4 + additions below | Infrastructure Health Monitor → API version |
+| **4. Cloud (AWS)** | Repo Phase 5 (cloud) + additions below | Health Monitor API running on AWS |
+| **5. DevOps & automation** | Repo Phase 5 (IaC, CI/CD, containers) + additions below | Same app: Docker + GitHub Actions + Terraform |
+| **6. AI & advanced security** | Repo Phase 6 + FDE track capstones | AI-assisted security monitoring, secured |
 
-- [x] Active Directory lab (`jaylonlab.local`) — DC, OUs, GPOs, users
-- [x] Wazuh SIEM lab — Sysmon + Suricata ingestion, dashboards, triage, active response
-- [x] Security+ certification
+## The system that grows (Stages 3–6)
 
----
+```
+Infrastructure Health Monitor (CLI, Phase 4)
+  └─► + FastAPI + PostgreSQL + auth            Stage 3: a real application
+        └─► deployed on AWS: VPC, EC2, RDS       Stage 4: runs in the cloud
+              └─► Docker + GitHub Actions + Terraform   Stage 5: automated
+                    └─► AI log triage, prompt-injection defenses   Stage 6: intelligent + secure
+```
 
-## Phase A — Land Network+ (Weeks 1–2)
+This covers project ideas 3, 5, 6, 7, 8, 9 and 10 in a single portfolio story.
 
-### Week 1 — Close the gaps
-- [ ] Drill Dion weak domain: Networking Concepts (was 52%)
-- [ ] Drill Dion weak domain: Troubleshooting (was 59%)
-- [ ] Python warmup (~1 hr): `json`, reading files, `collections.Counter`
-- [ ] **Checkpoint:** Dion practice consistently low 80s
+## Additions the repo curriculum doesn't cover yet
 
-### Week 2 — Confirm and sit it
-- [ ] Full Dion practice exams — clear 80%+ two attempts running
-- [ ] Schedule Network+ (N10-009)
-- [ ] **SHIP:** Pass Network+ (target ~Aug 8–14)
+### Stage 2 — Linux thread (light, runs alongside Phase 2, uses my Ubuntu VMs)
+- Filesystem, permissions (`chmod`, `chown`, users/groups)
+- Processes and services (`ps`, `systemctl`, `journalctl`)
+- Logs (`/var/log`, `auth.log`), SSH and keys
+- Bash basics, enough to read and write small scripts
+- **Proof:** set up a service on an Ubuntu VM, harden SSH, and troubleshoot a broken service from its logs
 
----
+### Stage 3 — Software engineering
+- HTTP in depth (methods, status codes, headers, HTTPS/TLS), REST design
+- SQL fundamentals → PostgreSQL (schemas, joins, migrations)
+- FastAPI: routes, validation (Pydantic), dependency injection
+- Authentication and authorization (password hashing, tokens, roles)
+- Unit tests vs. integration tests (pytest against a test database)
+- Secure coding: input validation, SQL injection, secrets handling
+- **Proof:** the Health Monitor exposes a REST API backed by PostgreSQL, with auth and tests
 
-## Phase B — The detection build (Weeks 3–9)
+### Stage 4 — AWS
+- IAM first (least privilege, no root use, MFA); a billing budget alarm before anything else
+- VPC, subnets (public/private), route tables, internet and NAT gateways, security groups
+- EC2, S3, RDS, a load balancer, CloudWatch logs and alarms
+- High availability vs. cost tradeoffs
+- **Proof:** the API runs in a private subnet behind a load balancer, uses RDS, and has logs/alarms. I can draw and explain the network path.
 
-CySA+ study starts here as background reading, ~2–3 hrs/week, one domain at a time.
+### Stage 5 — DevOps
+- Docker and docker-compose (app + database)
+- GitHub Actions: tests on `ubuntu-latest` and `windows-latest`, then a build
+- Terraform: rebuild the Stage 4 environment from code, then destroy and recreate it
+- Monitoring/logging as code; Kubernetes fundamentals **last** (concepts + a local cluster only)
+- **Proof:** a push to `main` runs tests, builds the image and deploys; the whole environment comes up from `terraform apply`
 
-### Week 3 — Act 2: Honeypot telemetry
-- [ ] Deploy Cowrie honeypot
-- [ ] Integrate Cowrie into Wazuh — confirm ingestion
-- [ ] **Python #1:** Cowrie log parser (stdlib) — top IPs, creds, commands, charted
-- [ ] CySA+ background reading (domain 1)
-- [ ] **SHIP:** Honeypot writeup + parser script
+### Stage 6 — AI & advanced security
+- How LLMs work (tokens, context, limits); calling an AI API from Python
+- Embeddings, vector databases, RAG; evaluating output quality
+- AI security: prompt injection, data leakage, output handling, least-privilege tools
+- **Proof:** the monitor classifies/summarizes incidents with AI, evaluation results are documented, and it is tested against injection attempts
+- Then: the FDE capstones (Secure Federal Document Intelligence Assistant, Security Operations AI Assistant)
 
-### Week 4 — Act 2→3 bridge: API + ATT&CK grounding
-- [ ] **Python #2:** Wazuh API alert puller (`requests` — auth, JSON, pagination)
-- [ ] Learn MITRE ATT&CK structure
-- [ ] Pick 5–8 techniques the lab can see (e.g. T1110 brute force, T1059 command execution)
-- [ ] Map existing Wazuh detections to ATT&CK
-- [ ] CySA+ background reading (domain 2)
-- [ ] **SHIP:** ATT&CK coverage matrix (current detections) + puller script
+## Where everything else fits
 
-### Week 5 — Act 3: Emulation + first Sigma rules
-- [ ] Install Atomic Red Team
-- [ ] Safely run 2–3 atomics for chosen techniques; confirm they land in Wazuh
-- [ ] Write first Sigma rules for those techniques
-- [ ] Learn `pySigma` / `sigma-cli`; convert Sigma → Wazuh
-- [ ] CySA+ background reading (domain 3)
-- [ ] **SHIP:** 2–3 Sigma rules + conversion notes + detection screenshots
+| Thing | Role |
+|---|---|
+| Network Wiz | Secondary track, feeds Stage 2. Its concepts get coded in Repo Phase 2. |
+| AD + Wazuh enterprise lab | Target environment: log source for Phase 3, monitor targets for Phase 4, compliance-checker targets for Phase 5 |
+| FDE track | Stage 6. Capstones wait until Stage 3 is done. |
+| python-foundations course | Retired (replaced by this repo) |
+| Cyber job search (Path A) | Runs in parallel. Each milestone goes on the resume once demonstrated. |
 
-### Week 6 — Act 3: The standout artifact
-- [ ] **Python #3:** Detection-validation harness — run Atomic technique → query Wazuh API → confirm alert fired → coverage report (technique → rule → pass/fail)
-- [ ] Write a full README for the harness (this is the differentiator project)
-- [ ] CySA+ background reading (domain 4)
-- [ ] **SHIP:** Harness + generated coverage report
-
-### Week 7 — Act 3 capstone: SigmaHQ contribution
-- [ ] Study SigmaHQ CONTRIBUTING guide + rule standards
-- [ ] Find a real gap or improvement
-- [ ] Write a rule to their spec + test it
-- [ ] Submit the PR (a quality PR is the win — merge timing is out of your hands)
-- [ ] **SHIP:** PR link, referenced from the portfolio
-
-### Week 8 — Act 4: Detection-as-Code
-- [ ] Put Sigma rules in a structured Git repo
-- [ ] Set up GitHub Actions CI
-- [ ] **Python #4:** `pytest` detection unit tests — load rule + sample log, assert it fires
-- [ ] Wire the tests into the Action
-- [ ] CySA+ background reading (remaining domains)
-- [ ] **SHIP:** Detection-as-code repo with green CI badge
-
-### Week 9 — Act 4: Automation + IR
-- [ ] **Python #5:** SOAR-lite triage script — poll alerts, enrich IPs (AbuseIPDB), score/dedupe, post daily summary to webhook/markdown
-- [ ] Write one IR playbook (brute-force scenario first)
-- [ ] Run a solo tabletop against it; document it
-- [ ] **SHIP:** Automation script + IR playbook doc
-
----
-
-## Phase C — Cert + reps + next track (Week 10+)
-
-### Week 10 — Sit CySA+
-- [ ] Schedule CySA+ (CS0-003)
-- [ ] **SHIP:** Pass CySA+
-
-### Ongoing reps (slot into lighter weeks)
-- [ ] Phishing `.eml` parser (`email` + `re`) — Received chain, SPF/DKIM/DMARC, defanged URLs
-- [ ] PCAP / C2 carver (`scapy` / `pyshark`) off malware-traffic-analysis.net exercises
-
-### Next track (pick one after CySA+)
-- [ ] AWS Cloud Practitioner + Prowler/CSPM writeup — *the cloud chapter*, **or**
-- [ ] CCNA + open the parked networking backlog — *the networking chapter*
-
----
-
-## Trackers
-
-### Certifications
-- [x] Security+ — earned
-- [ ] Network+ (N10-009) — Phase A
-- [ ] CySA+ (CS0-003) — Week 10
-- [ ] AWS Cloud Practitioner *or* CCNA — post-CySA+
-- [ ] Later horizon: PenTest+ → AWS Solutions Architect → AWS Security Specialty
-
-### Python / scripting ladder
-- [ ] #1 stdlib parsing — Cowrie logs (Week 3)
-- [ ] #2 HTTP + APIs — Wazuh API puller (Week 4)
-- [ ] #3 domain libraries — validation harness, `pySigma` (Weeks 5–6)
-- [ ] #4 testing — `pytest` detection tests (Week 8)
-- [ ] #5 automation — triage/enrichment service (Week 9)
+## Rough timeline (estimate, not a deadline)
+- Stage 1: finishes about mid-to-late Dec 2026
+- Full roadmap: about 18–24 months part-time; adjust based on actual pace
